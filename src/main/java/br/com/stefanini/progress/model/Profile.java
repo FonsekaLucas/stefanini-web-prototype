@@ -21,7 +21,6 @@ public class Profile implements Serializable {
 
 	@Id
 	@Column(name = "cd_id_profile")
-	// @NotEmpty(message = "*Por favor, insira seu usuário!")
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int idProfile;
 

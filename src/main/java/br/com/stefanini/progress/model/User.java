@@ -1,118 +1,95 @@
 package br.com.stefanini.progress.model;
 
 import java.io.Serializable;
-import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import org.hibernate.validator.constraints.NotEmpty;
-import org.hibernate.validator.constraints.br.CPF;
+import org.hibernate.validator.constraints.Length;
+
 
 @Entity
-@Table(name = "tb_cad_user")
+@Table(name = "tb_cad_login")
 public class User implements Serializable {	
 
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -841261025172084734L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "cd_id_user")
-	private int idUser;
-
-	@OneToOne
-	@JoinColumn(name = "cd_id_login", foreignKey = @ForeignKey(name = "fk_constraint_login"))
-	private Login login;
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	@Column(name = "cd_id_login")
+	private int idLogin;
 	
-	@Column(name = "fd_cpf")
-	@CPF(message = "*Por favor forneça um CPF válido")
-	@NotEmpty(message = "*Por favor forneça seu CPF")
-	private String cpf;
+	@Column(name = "fd_username")
+	private String userName;
+
+	@Column(name = "fd_nickname")
+	private String nickname;
 	
-	@ManyToOne
-	@JoinColumn(name = "cd_id_profile" , foreignKey = @ForeignKey(name = "fk_constraint_profile"))
-	private Profile profile;
-
-	@Column(name = "fd_name")
-	private String nameUser;
-
 	@Column(name = "fd_email")
-	// @Email(message="*Por favor providencie um email válido")
-	private String emailUser;
+	private String email;
 
-	@ManyToMany(cascade = { CascadeType.ALL, CascadeType.REMOVE })
-	@JoinTable(name = "tb_assoc_user_project", joinColumns = @JoinColumn(name = "cd_id_user", foreignKey = @ForeignKey(name = "fk_constraint_user")), inverseJoinColumns = @JoinColumn(name = "cd_id_project", foreignKey = @ForeignKey(name = "fk_constraint_project")))
-	private List<Project> project;
-
-	public List<Project> getProject() {
-		return project;
-	}
-
-	public void setProject(List<Project> project) {
-		this.project = project;
-	}
-
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
-
-	public int getIdUser() {
-		return idUser;
-	}
-
-	public void setIdUser(int idUser) {
-		this.idUser = idUser;
-	}
-
-	public Login getLogin() {
-		return login;
-	}
-
-	public void setLogin(Login login) {
-		this.login = login;
-	}
-
-	public Profile getProfile() {
-		return profile;
-	}
-
-	public void setProfile(Profile profile) {
-		this.profile = profile;
-	}
+	@Length(min = 6, message = "*Sua senha deve conter, no mínimo, 6 caracteres!")
+	@Column(name = "fd_password")
+	private String password;
 	
-	public String getCpf() {
-		return cpf;
-	}
-	
-	public void setCpf(String cpf) {
-		this.cpf = cpf;
+	@ManyToMany(cascade = CascadeType.ALL)
+	@JoinTable(name = "tb_asso_user_profile", joinColumns = @JoinColumn(name = "cd_id_login"), inverseJoinColumns = @JoinColumn(name = "fd_profile"))
+	private Set<Profile> profiles;
+
+	public int getIdLogin() {
+		return idLogin;
 	}
 
-	public String getNameUser() {
-		return nameUser;
+	public void setIdLogin(int idLogin) {
+		this.idLogin = idLogin;
 	}
 
-	public void setNameUser(String nameUser) {
-		this.nameUser = nameUser;
+	public String getUserName() {
+		return userName;
 	}
 
-	public String getEmailUser() {
-		return emailUser;
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 
-	public void setEmailUser(String emailUser) {
-		this.emailUser = emailUser;
+	public String getNickname() {
+		return nickname;
 	}
 
+	public void setNickname(String nickname) {
+		this.nickname = nickname;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public Set<Profile> getProfiles() {
+		return profiles;
+	}
+
+	public void setProfiles(Set<Profile> profiles) {
+		this.profiles = profiles;
+	}
 }

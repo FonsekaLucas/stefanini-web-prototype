@@ -26,7 +26,7 @@
 
 			<div id="boxContent">
 				
-				<form method="post" th:action="@{/register}">
+				<form method="post" th:action="@{/register}" th:object="${login}">
 				
 					<h1 class="titulo">cadastro</h1>
 

@@ -8,14 +8,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import br.com.stefanini.progress.model.Login;
-import br.com.stefanini.progress.service.UserService;
+import br.com.stefanini.progress.model.User;
+import br.com.stefanini.progress.service.LoginService;
 
 @Controller
 public class LoginController {	
 	
   @Autowired
-	private UserService userService;
+	private LoginService loginService;
   
   	@RequestMapping(value={"/","/login"}, method = RequestMethod.GET)
 	public ModelAndView login(){
@@ -28,7 +28,7 @@ public class LoginController {
 	public ModelAndView home(){
 		ModelAndView modelAndView = new ModelAndView();
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		Login login = userService.findLoginByUsername(auth.getName());
+		User user = loginService.findUserByUsername(auth.getName());
 		modelAndView.setViewName("progress/index");
 		return modelAndView;
 	}
